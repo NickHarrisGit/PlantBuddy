@@ -1,0 +1,47 @@
+version: '3'
+services:
+  mqtt_broker:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  soil_sensing_service:
+    build: ./soil_sensing_service
+    volumes:
+      - ./soil_sensing_service:/app
+    depends_on:
+      - mqtt_broker
+
+  day_night_led_service:
+    build: ./day_night_led_service
+    volumes:
+      - ./day_night_led_service:/app
+    depends_on:
+      - mqtt_broker
+
+  led_alert_service:
+    build: ./led_alert_service
+    volumes:
+      - ./led_alert_service:/app
+    depends_on:
+      - mqtt_broker
+
+  data_persistence_service:
+    build: ./data_persistence_service
+    ports:
+      - 5000:5000
+    volumes:
+      - ./data_persistence_service:/app
+    depends_on:
+      - mqtt_broker
+
+  web_gui_service:
+    build: ./web_gui_service
+    ports:
+      - 8080:8080
+    volumes:
+      - ./web_gui_service:/app
+    depends_on:
+      - mqtt_broker
