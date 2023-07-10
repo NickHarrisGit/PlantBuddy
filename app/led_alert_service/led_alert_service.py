@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import RPi.GPIO as GPIO
+import time
 
 # Define the pin that will be used for the LED strip
 LED_PIN = 18
@@ -8,12 +9,21 @@ LED_PIN = 18
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PIN, GPIO.OUT)
 
-# Initialize MQTT client
-client = mqtt.Client()
-client.connect("mqtt_broker", 1883, 60)
-
 # Moisture threshold
 moisture_threshold = 30
+
+# Initialize MQTT client
+client = mqtt.Client()
+
+# Connect to MQTT broker with a connection loop
+while True:
+    try:
+        client.connect('mqtt_broker', 1883, 60)
+        print('Successfully connected to MQTT broker')
+        break  # Connected, break the loop
+    except:
+        print('Failed to connect to MQTT broker, retrying...')
+        time.sleep(3)  # Wait before retrying
 
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))

@@ -10,7 +10,16 @@ GPIO.setup(led_pin, GPIO.OUT)
 
 # Initialize MQTT client
 client = mqtt.Client()
-client.connect("mqtt_broker", 1883, 60)
+
+# Connect to MQTT broker with a connection loop
+while True:
+    try:
+        client.connect('mqtt_broker', 1883, 60)
+        print('Successfully connected to MQTT broker')
+        break  # Connected, break the loop
+    except:
+        print('Failed to connect to MQTT broker, retrying...')
+        time.sleep(3)  # Wait before retrying
 
 # Day and night hours
 day_start = datetime.time(6, 0)

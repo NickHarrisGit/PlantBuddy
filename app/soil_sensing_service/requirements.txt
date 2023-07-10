@@ -1,3 +1,1 @@
-RPi.GPIO
-adafruit-circuitpython-seesaw
 paho-mqtt

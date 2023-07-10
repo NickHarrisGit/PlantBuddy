@@ -17,4 +17,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app
 
 # Run your python script when the container launches
-CMD ["python", "-u", "data_persistance_service.py"]
+CMD ["python", "-u", "data_persistence_service.py"]

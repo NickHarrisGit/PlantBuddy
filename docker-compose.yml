@@ -5,43 +5,62 @@ services:
     ports:
       - 1883:1883
     volumes:
-      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
-
-  soil_sensing_service:
-    build: ./soil_sensing_service
-    volumes:
-      - ./soil_sensing_service:/app
-    depends_on:
-      - mqtt_broker
-
-  day_night_led_service:
-    build: ./day_night_led_service
-    volumes:
-      - ./day_night_led_service:/app
-    depends_on:
-      - mqtt_broker
-
-  led_alert_service:
-    build: ./led_alert_service
-    volumes:
-      - ./led_alert_service:/app
-    depends_on:
-      - mqtt_broker
-
+      - ./app/mqtt_service/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    healthcheck:
+      test: ["CMD", "mosquitto_sub", "-t", "healthcheck"]
+      interval: 30s
+      timeout: 30s
+      start_period: 5s
+      retries: 3
+  
   data_persistence_service:
-    build: ./data_persistence_service
+    build: ./app/data_persistence_service
     ports:
       - 5000:5000
     volumes:
-      - ./data_persistence_service:/app
+      - ./app/data_persistence_service:/app
     depends_on:
       - mqtt_broker
+    links:
+      - mqtt_broker
+
+  soil_sensing_service:
+    build: ./app/soil_sensing_service
+    volumes:
+      - ./app/soil_sensing_service:/app
+    depends_on:
+      - mqtt_broker
+    links:
+      - mqtt_broker
+    privileged: true
+
+  day_night_led_service:
+    build: ./app/day_night_led_service
+    volumes:
+      - ./app/day_night_led_service:/app
+    depends_on:
+      - mqtt_broker
+    links:
+      - mqtt_broker
+    privileged: true
+
+  led_alert_service:
+    build: ./app/led_alert_service
+    volumes:
+      - ./app/led_alert_service:/app
+    depends_on:
+      - mqtt_broker
+    links:
+      - mqtt_broker
+    privileged: true
 
   web_gui_service:
-    build: ./web_gui_service
+    build: ./app/web_gui_service
     ports:
       - 8080:8080
     volumes:
-      - ./web_gui_service:/app
+      - ./app/web_gui_service:/app
     depends_on:
+      - mqtt_broker
+    links:
       - mqtt_broker

@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO
 import paho.mqtt.client as mqtt
 import requests
+import time
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -34,7 +35,16 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect("mqtt_broker", 1883, 60)
+
+# Connect to MQTT broker with a connection loop
+while True:
+    try:
+        client.connect('mqtt_broker', 1883, 60)
+        print('Successfully connected to MQTT broker')
+        break  # Connected, break the loop
+    except:
+        print('Failed to connect to MQTT broker, retrying...')
+        time.sleep(3)  # Wait before retrying
 
 if __name__ == '__main__':
     client.loop_start()

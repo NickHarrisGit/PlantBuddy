@@ -11,10 +11,13 @@ WORKDIR /app
 COPY requirements.txt /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apt-get update && \
+    apt-get install -y python3-dev gcc && \
+    pip3 install RPi.GPIO && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container at /app 
 COPY . /app
 
 # Run your python script when the container launches
-CMD ["python", "-u", "data_persistance_service.py"]
+CMD ["python", "-u", "led_alert_service.py"]
