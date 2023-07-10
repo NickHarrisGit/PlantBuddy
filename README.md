@@ -12,11 +12,11 @@ The PlantBuddy project is an intelligent plant care system that uses a Raspberry
 ### Steps
 1. Clone this repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/NickHarrisGit/PlantBuddy.git
 ```
 2. Navigate into the repository
 ```bash
-cd <repository-directory>
+cd app/
 ```
 3. Build Docker images and start services
 ```bash
@@ -29,4 +29,5 @@ Coming soon...
 Currently, this is a personal project and I am not looking for contributors.
 
 ## License
-TBD - Do not use this for anything for now.
+MIT
+See LICENSE for details.
