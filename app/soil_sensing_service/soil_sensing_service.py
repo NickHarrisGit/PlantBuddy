@@ -13,6 +13,8 @@ voltage_max = 1023  # Voltage reading for wet soil
 
 # Initialize MQTT client
 client = mqtt.Client()
+client.username_pw_set("PI", "OccurOughtInfluenceKnow674@")
+
 
 # Connect to MQTT broker with a connection loop
 while True:

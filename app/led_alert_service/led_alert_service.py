@@ -14,6 +14,7 @@ moisture_threshold = 30
 
 # Initialize MQTT client
 client = mqtt.Client()
+client.username_pw_set("PI", "OccurOughtInfluenceKnow674@")
 
 # Connect to MQTT broker with a connection loop
 while True:

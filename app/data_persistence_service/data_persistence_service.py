@@ -67,6 +67,7 @@ def on_message(client, userdata, msg):
 # Set up MQTT client
 
 client = mqtt.Client()
+client.username_pw_set("PI", "OccurOughtInfluenceKnow674@")
 client.on_connect = on_connect
 client.on_message = on_message
 

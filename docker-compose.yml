@@ -7,6 +7,8 @@ services:
     volumes:
       - ./app/mqtt_service/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./mqtt_data:/mosquitto/data
+      - ./log:/mosquitto/log
+      - ./app/mqtt_service/pwfile:/mosquitto/config/pwfile
     healthcheck:
       test: ["CMD", "mosquitto_sub", "-t", "healthcheck"]
       interval: 30s
