@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 
 # Initialize GPIO
 GPIO.setmode(GPIO.BCM)
-led_pin = 18  # Change to the pin you have the LED connected to
+led_pin = 16  # Change to the pin you have the LED connected to
 GPIO.setup(led_pin, GPIO.OUT)
 
 # Initialize MQTT client
